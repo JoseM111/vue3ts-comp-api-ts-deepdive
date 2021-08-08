@@ -1,19 +1,63 @@
-<!-- TimelineComponent.vue -->
+<!-- @Timeline.component.vue -->
+<!-- ⚫️⚫️☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰ -->
+
+// 🌀🌀💻 HTML 💻🌀🌀
+<template>
+  <!-- 🎵🎵🔲🔲◾☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰ -->
+    <nav class="is-primary panel">
+<!---->
+    <span class="panel-tabs"
+          style="font: small-caps 1.1rem bold, 'Krona One', sans-serif;">
+
+      <!--suppress HtmlUnknownAttribute -->
+      <a v-for="period in periods"
+         :key="period"
+         :class="{ 'is-active': period === currentPeriod }"
+         :data-test="period"
+         @click="setPeriod(period)"
+      >
+        {{ period }}
+      </a>
+
+    </span>
+
+<!--⚫️ TimelinePostComponent ⚫️-->
+    <TimelinePostComponent
+        v-for="post in posts"
+        :key="post.id"
+        :post="post"
+        class="panel-block"
+    />
+
+  </nav>
+
+  <!-- 🎵🎵🔲🔲◾☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰ -->
+</template>
+<!-- ⚫️⚫️☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰ -->
 
 // 🌀🌀💻 SCRIPT 💻🌀🌀
-<!-- 🎵🎵🔲🔲◾️◾️◾️◾️◾️◾️◾️ -->
 <script lang="ts">
 import { computed, defineComponent, ref } from 'vue'
+import TimelinePostComponent from "@/components/TimelinePost.component.vue"
 import { thisMonth, thisWeek, today } from "@/data/post.data"
 import moment from "moment"
 // ⚫️⚫️☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰
 
 type PeriodType = string | 'Today' | 'This Week' | 'This Month'
 
+function delay(): Promise<unknown> {
+  //..........
+  return new Promise((res) => {
+    setTimeout(res, 2000)
+  })
+}
 // ⚫️⚫️☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰
 
 export default defineComponent({
   name: 'TimelineComponent',
+  components: {
+    TimelinePostComponent,
+  },
   props: {
     periods: {
       type: Array as () => Array<string>,
@@ -22,11 +66,13 @@ export default defineComponent({
     }
   },
   //: Composition api: setup
-  setup: () => {
+  setup: async () => {
     //☰☰☰☰☰☰☰☰☰☰
+    await delay()
+
     const postDates = [ today, thisWeek, thisMonth ]
     const currentPeriod = ref<PeriodType>('Today')
-    
+
     /** computed is recalculating all of the ref values */
     const posts = computed(() => {
           //..........
@@ -40,16 +86,16 @@ export default defineComponent({
               case 'This Month':
                 return post.created.isAfter(moment().subtract(1, 'month'))
             }
-  
+
             return false
           })
         }
     )
-  
+
     function setPeriod(period: PeriodType): void {
       currentPeriod.value = period
     }
-  
+
     return {
       posts,
       setPeriod,
@@ -58,54 +104,12 @@ export default defineComponent({
   },
 })
 </script>
-<!-- 🌀🌀💻================================================= -->
-
-// 🌀🌀💻 HTML 💻🌀🌀
-<!-- 🎵🎵🔲🔲◾️◾️◾️◾️◾️◾️◾️ -->
-<template>
-  <!-- 🎵🎵🔲🔲◾️◾️◾️◾️◾️◾️◾️◾️◾️◾️◾️◾️◾️◾️◾️◾️◾️◾️◾️◾️◾️◾️◾️◾️◾️◾️◾️ -->
-  <nav class="is-primary panel">
-    
-    <span class="panel-tabs">
-      
-      <a v-for="period in periods"
-         :key="period"
-         :class="{ 'is-active' : period === currentPeriod }"
-         @click="setPeriod(period)"
-      >
-        <span style="font-weight: 600;">
-          {{ period }}
-        </span>
-      </a>
-      
-    </span>
-    
-    <a v-for="post in posts"
-       :key="post.id"
-       class="panel-block"
-    >
-      
-      <a style="font: 1.2rem small-caps bold, 'Iceland', sans-serif; color: red">
-        {{ post.title }}
-      </a>
-      
-      <div style="font: 1.2rem small-caps bold, 'Iceland',
-                  sans-serif; padding-left: 10px;"
-      >
-        {{ post.created.format('Do MMM') }}
-      </div>
-      
-    </a>
-    
-  </nav>
-  <!-- 🎵🎵🔲🔲◾️◾️◾️◾️◾️◾️◾️◾️◾️◾️◾️◾️◾️◾️◾️◾️◾️◾️◾️◾️◾️◾️◾️◾️◾️◾️◾️ -->
-</template>
-<!-- 🌀🌀💻================================================ -->
+<!-- ⚫️⚫️☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰ -->
 
 // 🌀🌀💻 STYLES 💻🌀🌀
-<!-- 🎵🎵🔲🔲◾️◾️◾️◾️◾️◾️◾️ -->
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss">
+
 </style>
-<!-- 🌀🌀💻================================================ -->
+<!-- ⚫️⚫️☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰ -->
+
 
