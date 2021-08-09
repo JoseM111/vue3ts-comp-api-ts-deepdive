@@ -39,8 +39,10 @@
 <script lang="ts">
 import { computed, defineComponent, ref } from 'vue'
 import TimelinePostComponent from "@/components/TimelinePost.component.vue"
-import { thisMonth, thisWeek, today } from "@/data/post.data"
+// import { thisMonth, thisWeek, today } from "@/data/post.data"
 import moment from "moment"
+import { useStore } from '@/stores/store'
+import { PostType } from '@/types/Post.type'
 // ⚫️⚫️☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰
 
 type PeriodType = string | 'Today' | 'This Week' | 'This Month'
@@ -68,15 +70,30 @@ export default defineComponent({
   //: Composition api: setup
   setup: async () => {
     //☰☰☰☰☰☰☰☰☰☰
+    /* delay function for the <suspense> vue component */
     await delay()
-
-    const postDates = [ today, thisWeek, thisMonth ]
+    
+    const store = useStore()
+    // const postDates = [ today, thisWeek, thisMonth ]
     const currentPeriod = ref<PeriodType>('Today')
+
+    const { ids } = store.getState().posts
+    const allPosts: PostType[] = ids.reduce<PostType[]>((accumulator, id) => {
+      //___________
+      const posts = store.getState().posts.allPosts.get(id)
+      
+      if (!posts) throw new Error('This post was not found')
+      
+      /* The concat() method is used to merge two or more arrays.
+         This method does not change the existing arrays, but
+         instead returns a new array. */
+      return accumulator.concat(posts)
+    }, [])
 
     /** computed is recalculating all of the ref values */
     const posts = computed(() => {
           //..........
-          return postDates.filter((post) => {
+          return allPosts.filter((post) => {
             //..........
             switch ( currentPeriod.value ) {
               case 'Today':

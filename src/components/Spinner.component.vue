@@ -7,6 +7,7 @@
   <h1>
     <b>Loading...</b>
   </h1>
+
   <progress class="progress is-large is-info" />
   <!-- 🎵🎵🔲🔲◾☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰ -->
 </template>
