@@ -6,7 +6,7 @@ import moment from "moment"
 export const today: PostType = {
 	id: '1',
 	title: 'Today',
-	created: moment().subtract(1, 'second')
+	created: moment().subtract(0, 'second')
 }
 // ⚫️⚫️☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰
 
