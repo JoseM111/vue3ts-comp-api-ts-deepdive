@@ -18,11 +18,12 @@
 <style lang="scss">
 h1 {
   font-family: 'Amazon Ember Duospace', sans-serif;
-  font-size: 1.8rem;
+  font-size: 4.1rem;
   display: flex;
   flex-direction: column;
   align-items: center;
   margin-top: 200px;
+  padding-bottom: 100px;
   color: white;
   text-shadow: 2px 1px 4px grey;
 }

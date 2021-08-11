@@ -11,7 +11,7 @@ interface IPostsState {
     // o(1)
     // posts.get(1) => {...}
     allPosts: Map<string, PostType>
-    // Checks if we loaded all of 
+    // Checks if we loaded all of
     // our state to the server
     loaded: boolean
 }
@@ -58,16 +58,12 @@ class Store {
 
 // ⚫️⚫️☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰
 
-const allPosts = new Map<string, PostType>()
-
-allPosts.set(today.id, today)
-allPosts.set(thisWeek.id, thisWeek)
-allPosts.set(thisMonth.id, thisMonth)
+const allPostMap = new Map<string, PostType>()
 // ⚫️⚫️☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰
 const store = new Store({
     posts: {
-        allPosts,
-        ids: [today.id, thisWeek.id, thisMonth.id],
+        allPosts: allPostMap,
+        ids: [],
         loaded: false,
     },
 })
