@@ -4,22 +4,18 @@
   <a :key="post.id"
      class="panel-block"
   >
-    <div class="is-flex is-flex-direction-column is-align-items-flex-start">
+    <div :class="timelineContainerStyle">
 
       <!--⚫️ Post-Title ⚫️-->
-      <span style="
-        color: dodgerblue;
-         font: 1.2rem bold, 'Goldman', sans-serif;">
-      <a>{{ post.title }}</a>
-      </span>
+	    <span :style="titleStyle">
+		    <a>{{ post.title }}</a>
+	    </span>
       <!--⚫️ Post-Date ⚫️-->
-      <div>
-        <span style="
-        color: red;
-         font: 1.2rem bold, 'Goldman', sans-serif;">
-          {{ post.created.format('Do MMM') }}
-        </span>
-      </div>
+	    <div>
+		    <span :style="dateStyle">
+			    {{ post.created.format('Do MMM') }}
+		    </span>
+	    </div>
 
     </div>
 
@@ -28,18 +24,44 @@
 <!-- ⚫️⚫️☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰ -->
 
 <script lang="ts">
-import { defineComponent } from 'vue'
 import { PostType } from "@/types/Post.type"
+import { defineComponent } from 'vue'
 // ⚫️⚫️☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰
 
-export default defineComponent({
-  name: 'TimelinePostComponent',
-  props: {
-    post: {
-      type: Object as () => PostType,
-      required: true,
-    }
-  },
-})
+export default defineComponent( {
+	name: 'TimelinePostComponent',
+	props: {
+		post: {
+			type: Object as () => PostType,
+			required: true,
+		}
+	},
+	// 🌀🌀💻 ☰☰☰☰☰☰☰☰☰☰☰ setup ☰☰☰☰☰☰☰☰☰☰☰ 💻🌀🌀
+	setup() {
+		//☰☰☰☰☰☰☰☰☰☰
+		const titleStyle = {
+			color: 'dodgerblue',
+			font: '1.2rem bold, ' +
+				'Goldman, sans-serif',
+		}
+		
+		const timelineContainerStyle = `
+			is-flex
+			is-flex-direction-column
+			is-align-items-flex-start
+		`
+		
+		const dateStyle = {
+			color: "red",
+			font: "1.2rem bold, 'Goldman', sans-serif",
+		}
+		
+		return {
+			titleStyle,
+			timelineContainerStyle,
+			dateStyle
+		}
+	}
+} )
 </script>
 <!-- ⚫️⚫️☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰ -->
