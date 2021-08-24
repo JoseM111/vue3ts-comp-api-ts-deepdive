@@ -1,36 +1,40 @@
-<!-- @App -->
+<!-- @NewPost.component.vue -->
 <!-- ⚫️⚫️☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰ -->
 
 // 🌀🌀💻 HTML 💻🌀🌀
 <template>
   <!-- 🎵🎵🔲🔲◾☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰ -->
-  <section class="section">
-	  <div class="container">
-		  <NavbarComponent />
-		 <router-view />
-	  </div>
-  </section>
+	 
+  <!--☰☰☰☰| New-Post |☰☰☰☰-->
+	<PostWriterComponent :post="newPost" />
+	 
   <!-- 🎵🎵🔲🔲◾☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰ -->
 </template>
 <!-- ⚫️⚫️☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰ -->
 
 // 🌀🌀💻 SCRIPT 💻🌀🌀
 <script lang="ts">
+import PostWriterComponent from '@/components/PostWriter.component.vue'
+import { PostType } from "@/types/Post.type"
+import moment from "moment"
 import { defineComponent } from 'vue'
-import NavbarComponent from "@/components/Navbar.component.vue"
 // ⚫️⚫️☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰
 
-export default defineComponent({
-  name: 'App',
-  components: {NavbarComponent},
-  //: Composition api: setup
-  setup: () => {
-    //☰☰☰☰☰☰☰☰☰☰
-
-
-    return {  }
-  },
-})
+export default defineComponent( {
+	name: 'NewPostComponent',
+	components: { PostWriterComponent },
+	// 🌀🌀💻 ☰☰☰☰☰☰☰☰☰☰☰ setup ☰☰☰☰☰☰☰☰☰☰☰ 💻🌀🌀
+	setup() {
+		//☰☰☰☰☰☰☰☰☰☰
+		const newPost: PostType = {
+			created: moment(),
+			id: "-1",
+			title: "Enter your title..."
+		}
+		
+		return { newPost }
+	}
+} )
 </script>
 <!-- ⚫️⚫️☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰ -->
 
@@ -39,5 +43,3 @@ export default defineComponent({
 
 </style>
 <!-- ⚫️⚫️☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰ -->
-
-

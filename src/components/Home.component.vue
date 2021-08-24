@@ -28,7 +28,7 @@
 // 🌀🌀💻 SCRIPT 💻🌀🌀
 <script lang="ts">
 import SpinnerComponent from "@/components/Spinner.component.vue"
-import TimelineComponent from "@/components/Timeline.component.vue"
+import TimelineComponent from "@/components/timeline/Timeline.component.vue"
 import { defineComponent } from 'vue'
 // ⚫️⚫️☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰
 

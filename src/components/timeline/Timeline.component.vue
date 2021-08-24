@@ -38,17 +38,14 @@
 
 // 🌀🌀💻 SCRIPT 💻🌀🌀
 <script lang="ts">
+import { extractedUtilsStore, PeriodType } from "@/components/timeline/Timeline.utils"
 import TimelinePostComponent from "@/components/TimelinePost.component.vue"
-import { useStore } from '@/stores/store'
-import { PostType } from '@/types/Post.type'
 // import { thisMonth, thisWeek, today } from "@/data/post.data"
 import moment from "moment"
-import { computed, defineComponent, ref } from 'vue'
+import { computed, defineComponent } from 'vue'
 // ⚫️⚫️☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰
 
-type PeriodType = string | 'Today' | 'This Week' | 'This Month'
 // ⚫️⚫️☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰
-
 export default defineComponent( {
 	name: 'TimelineComponent',
 	components: {
@@ -56,7 +53,7 @@ export default defineComponent( {
 	},
 	props: {
 		periods: {
-			type: Array as () => Array<string>,
+			type: Array as () => Array<PeriodType>,
 			required: false,
 			default: [ 'Today', 'This Week', 'This Month' ]
 		}
@@ -64,25 +61,7 @@ export default defineComponent( {
 	//: Composition api: setup
 	setup: async () => {
 		//☰☰☰☰☰☰☰☰☰☰
-		const store = useStore()
-		// const postDates = [ today, thisWeek, thisMonth ]
-		const currentPeriod = ref<PeriodType>( 'Today' )
-		
-		if ( !store.getState().posts.loaded ) await store.fetchPosts()
-		
-		const { ids } = store.getState().posts
-		
-		const allPosts: PostType[] = ids.reduce<PostType[]>( (accumulator, id) => {
-			//___________
-			const posts = store.getState().posts.allPosts.get( id )
-			
-			if ( !posts ) throw new Error( 'This post was not found' )
-			
-			/* The concat() method is used to merge two or more arrays.
-			 This method does not change the existing arrays, but
-			 instead returns a new array. */
-			return accumulator.concat( posts )
-		}, [] )
+		const { currentPeriod, allPosts } = await extractedUtilsStore()
 		
 		/** computed is recalculating all of the ref values */
 		const posts = computed( () => {

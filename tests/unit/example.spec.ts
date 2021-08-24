@@ -1,6 +1,6 @@
 /* example.spec.ts */
 import { flushPromises, mount } from "@vue/test-utils"
-import TimelineComponent from '@/components/Timeline.component.vue'
+import TimelineComponent from '@/components/timeline/Timeline.component.vue'
 import { thisMonth, thisWeek, today } from "@/data/post.data";
 // import { nextTick } from "vue"
 import { PostType } from "@/types/Post.type"
