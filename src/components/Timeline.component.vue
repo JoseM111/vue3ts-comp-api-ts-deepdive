@@ -71,6 +71,7 @@ export default defineComponent( {
 		if ( !store.getState().posts.loaded ) await store.fetchPosts()
 		
 		const { ids } = store.getState().posts
+		
 		const allPosts: PostType[] = ids.reduce<PostType[]>( (accumulator, id) => {
 			//___________
 			const posts = store.getState().posts.allPosts.get( id )
