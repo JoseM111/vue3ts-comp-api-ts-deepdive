@@ -1,15 +1,24 @@
-import App from '@/App.vue'
+import App from '@/app/App.vue'
 import { thisMonth, thisWeek, today } from "@/data/post.data"
 import { router } from "@/routes/router"
 import axios from "axios"
 import { createApp } from 'vue'
-
 // ⚫️⚫️☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰
+
+// main.ts
+renderApp()
+// ⚫️⚫️☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰
+function renderApp(): void {
+	const app = createApp( App )
+	// router plugin
+	app.use( router )
+	app.mount( '#app' )
+}
 
 function delay(): Promise<unknown> {
 	//..........
 	return new Promise( (res) => {
-		setTimeout( res, 2000 )
+		setTimeout( res, 1000 )
 	} )
 }
 
@@ -26,7 +35,3 @@ axios.get = async (url: string) => {
 	}
 }
 // ⚫️⚫️☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰
-const app = createApp( App )
-// router plugin
-app.use( router )
-app.mount( '#app' )
