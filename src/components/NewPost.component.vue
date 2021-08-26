@@ -1,41 +1,43 @@
 <!-- @NewPost.component.vue -->
 <!-- ⚫️⚫️☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰ -->
 
-// 🌀🌀💻 HTML 💻🌀🌀
-<template>
-  <!-- 🎵🎵🔲🔲◾☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰ -->
-	 
-  <!--☰☰☰☰| New-Post |☰☰☰☰-->
-	<PostWriterComponent :post="newPost" />
-	 
-  <!-- 🎵🎵🔲🔲◾☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰ -->
-</template>
-<!-- ⚫️⚫️☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰ -->
-
 // 🌀🌀💻 SCRIPT 💻🌀🌀
-<script lang="ts">
+<script setup lang="ts">
+// 🌀🌀💻 ☰☰☰☰ imports ☰☰☰☰ 💻🌀🌀
 import PostWriterComponent from '@/components/PostWriter.component.vue'
 import { PostType } from "@/types/Post.type"
 import moment from "moment"
-import { defineComponent } from 'vue'
 // ⚫️⚫️☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰
+/**
+* One drawback of the type-only defineProps declaration is that it doesn't
+ * have a way to provide default values for the props. To resolve this problem,
+ * a withDefaults compiler macro is also provided:
+ * ☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰
+ *  const props = withDefaults(defineProps<PostType>(), {
+    created: moment,
+ 	  id: "-1",
+    title: "Enter your title..."
+    })
+*/
+// 🌀🌀💻 ☰☰☰☰☰☰☰☰☰☰☰ setup ☰☰☰☰☰☰☰☰☰☰☰ 💻🌀🌀
+const newPost: PostType = {
+	created: moment(),
+	id: "-1",
+	title: "Enter your title..."
+}
 
-export default defineComponent( {
-	name: 'NewPostComponent',
-	components: { PostWriterComponent },
-	// 🌀🌀💻 ☰☰☰☰☰☰☰☰☰☰☰ setup ☰☰☰☰☰☰☰☰☰☰☰ 💻🌀🌀
-	setup() {
-		//☰☰☰☰☰☰☰☰☰☰
-		const newPost: PostType = {
-			created: moment(),
-			id: "-1",
-			title: "Enter your title..."
-		}
-		
-		return { newPost }
-	}
-} )
 </script>
+<!-- ⚫️⚫️☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰ -->
+
+// 🌀🌀💻 HTML 💻🌀🌀
+<template>
+  <!-- 🎵🎵🔲🔲◾☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰ -->
+
+  <!--☰☰☰☰| New-Post |☰☰☰☰-->
+	<PostWriterComponent :post="newPost" />
+
+  <!-- 🎵🎵🔲🔲◾☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰ -->
+</template>
 <!-- ⚫️⚫️☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰ -->
 
 // 🌀🌀💻 STYLES 💻🌀🌀
