@@ -6,5 +6,7 @@ export type PostType = {
 	id: string
 	title: string
 	created: moment.Moment
+	html?: string
+	markdown?: string
 }
 // ⚫️⚫️☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰

@@ -26,6 +26,10 @@ const newPost: PostType = {
 	title: "Enter your title..."
 }
 
+const savePost = (post: PostType) => {
+	//..........
+	console.log('savePost emit:', post)
+}
 </script>
 <!-- ⚫️⚫️☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰ -->
 
@@ -34,7 +38,10 @@ const newPost: PostType = {
   <!-- 🎵🎵🔲🔲◾☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰ -->
 
   <!--☰☰☰☰| New-Post |☰☰☰☰-->
-	<PostWriterComponent :post="newPost" />
+	<PostWriterComponent
+		:post="newPost"
+		@savePost="savePost"
+	/>
 
   <!-- 🎵🎵🔲🔲◾☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰ -->
 </template>
