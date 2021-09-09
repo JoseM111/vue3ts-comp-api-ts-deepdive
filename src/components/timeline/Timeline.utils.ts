@@ -7,7 +7,7 @@ import { ref } from "vue"
 export type PeriodType = 'Today' | 'This Week' | 'This Month'
 // ⚫️⚫️☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰
 
-export async function extractedUtilsStore() {
+export const useUtilsStore = async () => {
 	//☰☰☰☰☰☰☰☰☰☰
 	const store = useStore()
 	// const postDates = [ today, thisWeek, thisMonth ]

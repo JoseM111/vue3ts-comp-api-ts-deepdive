@@ -1,4 +1,4 @@
-import App from '@/app/App.vue'
+import App from "@/app/App.vue"
 import { thisMonth, thisWeek, today } from "@/data/post.data"
 import { router } from "@/routes/router"
 import axios from "axios"

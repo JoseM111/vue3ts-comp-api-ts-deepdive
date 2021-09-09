@@ -2,33 +2,17 @@
 <!-- ⚫️⚫️☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰ -->
 
 <script setup lang="ts">
+import { useTimelinePostHook } from "@/components/timeline/composables/timeline-post.composable"
 import { PostType } from "@/types/Post.type"
-import { ref } from 'vue'
+import { defineProps } from "vue"
 // ⚫️⚫️☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰
-
 const props = defineProps<{
 	post: PostType
 }>()
-
+// ⚫️⚫️☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰
+const { titleStyle, timelineContainerStyle, dateStyle } = useTimelinePostHook()
 const { post } = props
 
-
-const titleStyle = ref({
-	color: 'dodgerblue',
-	font: '1.2rem bold, ' +
-		'Goldman, sans-serif',
-})
-
-const timelineContainerStyle = ref(`
-			is-flex
-			is-flex-direction-column
-			is-align-items-flex-start
-		`)
-
-const dateStyle = ref({
-	color: "red",
-	font: "1.2rem bold, 'Goldman', sans-serif",
-})
 </script>
 <!-- ⚫️⚫️☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰ -->
 
