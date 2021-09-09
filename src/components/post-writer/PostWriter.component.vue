@@ -15,10 +15,15 @@ import { onMounted, ref, watch } from 'vue'
 const props = defineProps<{
 	post: PostType
 }>()
+
+const emit = defineEmits<{
+	(event: 'savePost', newPost: PostType): void
+}>()
 // 🌀🌀💻 ☰☰☰☰☰☰☰☰☰☰☰ setup ☰☰☰☰☰☰☰☰☰☰☰ 💻🌀🌀
 const { post } = props
 const title = ref<PostType['title']>(post.title)
 const { content, html, contentEditable } = usePostWriterHook()
+
 // console.log('html tag:', html.value)
 
 // Will be undefined on the first render because setup
@@ -94,6 +99,19 @@ onMounted(() => {
 	contentEditable.value!!.textContent = content.value
 	console.log('[ contentEditable\'s value ]:', contentEditable.value)
 })
+
+const savePost = (): void => {
+	//..........
+	// 1. creating a new post interface
+	const newPost: PostType = {
+		...props.post,
+		html: html.value,
+		title: title.value,
+		markdown: content.value
+	}
+	// 2. emitting an event
+	emit('savePost', newPost)
+}
 </script>
 <!-- ⚫️⚫️☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰ -->
 <!-- ⚫️⚫️☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰ -->
@@ -144,6 +162,17 @@ onMounted(() => {
 		<div class="column">
 			<div v-html="html" />
 		</div>
+		
+		<div class="columns">
+			<div class="column">
+				<button class="button is-primary is-pulled-right"
+				@click="savePost"
+				>
+					Submit
+				</button>
+			</div>
+		</div>
+		
 	</div>
   <!-- 🎵🎵🔲🔲◾☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰ -->
 </template>
