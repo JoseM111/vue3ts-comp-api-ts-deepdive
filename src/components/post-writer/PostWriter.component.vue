@@ -4,8 +4,10 @@
 // 🌀🌀💻 SCRIPT 💻🌀🌀
 <script setup lang="ts">
 // 🌀🌀💻 ☰☰☰☰ imports ☰☰☰☰ 💻🌀🌀
+import { usePostWriterHook } from "@/components/post-writer/composables/post-writer.composable"
 import { PostType } from "@/types/Post.type"
-import { onMounted, ref } from 'vue'
+import { parse } from "marked"
+import { onMounted, ref, watchEffect } from 'vue'
 // ⚫️⚫️☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰
 
 const props = defineProps<{
@@ -13,21 +15,56 @@ const props = defineProps<{
 }>()
 // 🌀🌀💻 ☰☰☰☰☰☰☰☰☰☰☰ setup ☰☰☰☰☰☰☰☰☰☰☰ 💻🌀🌀
 const { post } = props
-const title = ref( post.title )
-const content = ref<string>( '' )
-const contentEditable = ref( undefined )
+const title = ref<PostType['title']>(post.title)
+const { content, html, contentEditable } = usePostWriterHook()
+// console.log('html tag:', html.value)
 
 // Will be undefined on the first render because setup
 // will be called first before the component has been mounted
-console.log( '[ contentEditable\'s value ]:', contentEditable.value )
+console.log('[ contentEditable\'s value ]:', contentEditable.value)
 // 🌀🌀💻 ☰☰☰☰☰☰☰☰☰☰☰ component-functions ☰☰☰☰☰☰☰☰☰☰☰ 💻🌀🌀
+
+/**☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰
+ * @watch:
+ *  watch requires watching a specific data source and applies
+ *  side effects in a separate callback function. It also is lazy
+ *  by default - i.e. the callback is only called when the watched
+ *  source has changed.
+ *
+  watch(content, (newContent: string) => {
+		//..........
+		html.value = parse(newContent)
+		console.log('watch:', html.value)
+	},
+		{ immediate: true }
+	)
+ * ☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰ */
+
+/** @watchEffect:
+ * Runs a function immediately while reactively tracking its
+ * dependencies and re-runs it whenever the dependencies are changed. */
+watchEffect(() => {
+	//..........
+	html.value = parse(content.value)
+	console.log('watch:', html.value)
+})
+
+
+const handleInput = () => {
+	//..........
+	if ( !contentEditable.value ) throw Error('Value not defined')
+	
+	content.value = contentEditable.value.textContent || ''
+}
 
 // Runs when the component is mounted. Not when the component
 // is rendered. Which means contentEditable.value will no
 // longer be undefined
-onMounted( () => {
-	console.log( '[ contentEditable\'s value ]:', contentEditable.value )
-} )
+onMounted(() => {
+	//..........
+	contentEditable.value!!.textContent = content.value
+	console.log('[ contentEditable\'s value ]:', contentEditable.value)
+})
 </script>
 <!-- ⚫️⚫️☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰ -->
 <!-- ⚫️⚫️☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰ -->
@@ -70,11 +107,14 @@ onMounted( () => {
 				      • false, which indicates that the element is not editable.
 				 -->
 			<div contenteditable ref="contentEditable"
-			     style="background: #908E96; border-radius: 8px;" />
+			     @input="handleInput"
+			     style="border-radius: 8px;" />
 			<!-- @ref: is a template ref, to get ⬆️ a reference from a dom element -->
 		</div>
 		
-		<div class="column">Preview</div>
+		<div class="column">
+			<div v-html="html" />
+		</div>
 	</div>
   <!-- 🎵🎵🔲🔲◾☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰ -->
 </template>

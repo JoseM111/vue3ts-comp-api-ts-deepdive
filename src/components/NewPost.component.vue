@@ -4,7 +4,7 @@
 // 🌀🌀💻 SCRIPT 💻🌀🌀
 <script setup lang="ts">
 // 🌀🌀💻 ☰☰☰☰ imports ☰☰☰☰ 💻🌀🌀
-import PostWriterComponent from '@/components/PostWriter.component.vue'
+import PostWriterComponent from '@/components/post-writer/PostWriter.component.vue'
 import { PostType } from "@/types/Post.type"
 import moment from "moment"
 // ⚫️⚫️☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰

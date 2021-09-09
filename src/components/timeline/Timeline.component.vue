@@ -2,41 +2,49 @@
 <!-- ⚫️⚫️☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰ -->
 
 // 🌀🌀💻 SCRIPT 💻🌀🌀
-<script setup lang="ts">
-// 🌀🌀💻 ☰☰☰☰ imports ☰☰☰☰ 💻🌀🌀
-import { extractedUtilsStore, PeriodType } from "@/components/timeline/Timeline.utils"
-import TimelinePostComponent from "@/components/TimelinePost.component.vue"
-// import { thisMonth, thisWeek, today } from "@/data/post.data"
+<script lang="ts">
+import { PeriodType, useUtilsStore } from "@/components/timeline/Timeline.utils"
+import TimelinePostComponent from "@/components/timeline/TimelinePost.component.vue"
+import { PostType } from "@/types/Post.type"
 import moment from "moment"
-import { computed, ref } from 'vue'
+import { computed, defineComponent, ref } from "vue"
+// import { thisMonth, thisWeek, today } from "@/data/post.data"
 // ⚫️⚫️☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰
 
-// 🌀🌀💻 ☰☰☰☰☰☰☰☰☰☰☰ setup ☰☰☰☰☰☰☰☰☰☰☰ 💻🌀🌀
-const periods = ref<PeriodType[]>([ 'Today', 'This Week', 'This Month' ])
-const { currentPeriod, allPosts } = await extractedUtilsStore()
-
-/** computed is recalculating all of the ref values */
-const posts = computed( () => {
-		//..........
-		return allPosts.filter( (post) => {
+export default defineComponent({
+	name: 'TimelineComponent',
+	components: { TimelinePostComponent },
+	// 🌀🌀💻 ☰☰☰☰☰☰☰☰☰☰☰ setup ☰☰☰☰☰☰☰☰☰☰☰ 💻🌀🌀
+	async setup() {
+		//☰☰☰☰☰☰☰☰☰☰
+		const periods = ref<PeriodType[]>([ 'Today', 'This Week', 'This Month' ])
+		const { currentPeriod, allPosts } = await useUtilsStore()
+		
+		/** computed is recalculating all of the ref values */
+		const posts = computed<PostType[]>(() => {
 			//..........
-			switch ( currentPeriod.value ) {
-				case 'Today':
-					return post.created.isAfter( moment().subtract( 1, 'day' ) )
-				case 'This Week':
-					return post.created.isAfter( moment().subtract( 1, 'week' ) )
-				case 'This Month':
-					return post.created.isAfter( moment().subtract( 1, 'month' ) )
-			}
-			
-			return false
-		} )
+			return allPosts.filter((post: PostType) => {
+				//..........
+				switch ( currentPeriod.value ) {
+					case 'Today':
+						return post.created.isAfter(moment().subtract(1, 'day'))
+					case 'This Week':
+						return post.created.isAfter(moment().subtract(1, 'week'))
+					case 'This Month':
+						return post.created.isAfter(moment().subtract(1, 'month'))
+				}
+				
+				return false
+			})
+		})
+		
+		function setPeriodOnClicked(period: PeriodType): void {
+			currentPeriod.value = period
+		}
+		
+		return { periods, posts, currentPeriod, setPeriodOnClicked }
 	}
-)
-
-function setPeriod(period: PeriodType): void {
-	currentPeriod.value = period
-}
+})
 </script>
 <!-- ⚫️⚫️☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰ -->
 
@@ -55,12 +63,12 @@ function setPeriod(period: PeriodType): void {
 				:key="period"
 				:class="{ 'is-active': period === currentPeriod }"
 				:data-test="period"
-				@click="setPeriod(period)"
+				@click="setPeriodOnClicked(period)"
 			>
 				{{ period }}
 			</a>
 		</span>
-
+		
 		<!--⚫️ TimelinePostComponent ⚫️-->
 		<TimelinePostComponent
 			v-for="post in posts"
@@ -70,7 +78,7 @@ function setPeriod(period: PeriodType): void {
 		/>
 
 	</nav>
-
+	
 	<!-- 🎵🎵🔲🔲◾☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰ -->
 </template>
 <!-- ⚫️⚫️☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰ -->
