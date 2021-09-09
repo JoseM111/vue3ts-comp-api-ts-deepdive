@@ -7,6 +7,7 @@
 import { usePostWriterHook } from "@/components/post-writer/composables/post-writer.composable"
 import { PostType } from "@/types/Post.type"
 import { parse } from "marked"
+import highlight from 'highlight.js'
 import { onMounted, ref, watchEffect } from 'vue'
 // ⚫️⚫️☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰
 
@@ -45,8 +46,15 @@ console.log('[ contentEditable\'s value ]:', contentEditable.value)
  * dependencies and re-runs it whenever the dependencies are changed. */
 watchEffect(() => {
 	//..........
-	html.value = parse(content.value)
-	console.log('watch:', html.value)
+	html.value = parse(content.value, {
+		gfm: true,
+		breaks: true,
+		highlight: (code: string) => (
+			// .value from highlight.js not ref()
+			highlight.highlightAuto(code).value
+		)
+	})
+	// console.log('watch:', html.value)
 })
 
 
@@ -54,7 +62,7 @@ const handleInput = () => {
 	//..........
 	if ( !contentEditable.value ) throw Error('Value not defined')
 	
-	content.value = contentEditable.value.textContent || ''
+	content.value = contentEditable.value.innerText || ''
 }
 
 // Runs when the component is mounted. Not when the component
@@ -118,3 +126,10 @@ onMounted(() => {
 	</div>
   <!-- 🎵🎵🔲🔲◾☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰ -->
 </template>
+<!-- ⚫️⚫️☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰ -->
+
+<style>
+.column {
+	overflow-y: scroll;
+}
+</style>

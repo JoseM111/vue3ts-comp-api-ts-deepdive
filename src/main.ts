@@ -3,6 +3,7 @@ import { thisMonth, thisWeek, today } from "@/data/post.data"
 import { router } from "@/routes/router"
 import axios from "axios"
 import { createApp } from 'vue'
+import 'highlight.js/styles/github-dark.css'
 // ⚫️⚫️☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰
 
 // main.ts
