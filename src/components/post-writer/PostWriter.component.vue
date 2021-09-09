@@ -6,9 +6,10 @@
 // 🌀🌀💻 ☰☰☰☰ imports ☰☰☰☰ 💻🌀🌀
 import { usePostWriterHook } from "@/components/post-writer/composables/post-writer.composable"
 import { PostType } from "@/types/Post.type"
-import { parse } from "marked"
 import highlight from 'highlight.js'
-import { onMounted, ref, watchEffect } from 'vue'
+import debounce from 'lodash/debounce'
+import { parse } from "marked"
+import { onMounted, ref, watch } from 'vue'
 // ⚫️⚫️☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰
 
 const props = defineProps<{
@@ -41,12 +42,27 @@ console.log('[ contentEditable\'s value ]:', contentEditable.value)
 	)
  * ☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰ */
 
-/** @watchEffect:
+/**☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰
+ * @watchEffect:
  * Runs a function immediately while reactively tracking its
- * dependencies and re-runs it whenever the dependencies are changed. */
-watchEffect(() => {
+ * dependencies and re-runs it whenever the dependencies are changed.
+	watchEffect(() => {
+		//..........
+		html.value = parse(content.value, {
+			gfm: true,
+			breaks: true,
+			highlight: (code: string) => (
+				// .value from highlight.js not ref()
+				highlight.highlightAuto(code).value
+			)
+		})
+		// console.log('watch:', html.value)
+	})
+ *** ☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰ */
+
+const parseHtml = (value: string) => {
 	//..........
-	html.value = parse(content.value, {
+	html.value = parse(value, {
 		gfm: true,
 		breaks: true,
 		highlight: (code: string) => (
@@ -54,14 +70,19 @@ watchEffect(() => {
 			highlight.highlightAuto(code).value
 		)
 	})
-	// console.log('watch:', html.value)
-})
+}
 
+// Makes the text editor responsive and will
+// render more smoothly when adding markdown
+watch(content, debounce((newValue: string) => (
+			parseHtml(newValue)
+		), 250
+	), { immediate: true }
+)
 
 const handleInput = () => {
 	//..........
 	if ( !contentEditable.value ) throw Error('Value not defined')
-	
 	content.value = contentEditable.value.innerText || ''
 }
 

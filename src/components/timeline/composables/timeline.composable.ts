@@ -1,4 +1,4 @@
-/** Timeline.utils.ts */
+/** timeline.composable.ts */
 import { useStore } from "@/stores/store"
 import { PostType } from "@/types/Post.type"
 import { ref } from "vue"
@@ -7,7 +7,7 @@ import { ref } from "vue"
 export type PeriodType = 'Today' | 'This Week' | 'This Month'
 // ⚫️⚫️☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰
 
-export const useUtilsStore = async () => {
+export const useTimelineHook = async () => {
 	//☰☰☰☰☰☰☰☰☰☰
 	const store = useStore()
 	// const postDates = [ today, thisWeek, thisMonth ]

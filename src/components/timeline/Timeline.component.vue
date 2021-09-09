@@ -3,7 +3,7 @@
 
 // 🌀🌀💻 SCRIPT 💻🌀🌀
 <script lang="ts">
-import { PeriodType, useUtilsStore } from "@/components/timeline/Timeline.utils"
+import { PeriodType, useTimelineHook } from "@/components/timeline/composables/timeline.composable"
 import TimelinePostComponent from "@/components/timeline/TimelinePost.component.vue"
 import { PostType } from "@/types/Post.type"
 import moment from "moment"
@@ -18,7 +18,7 @@ export default defineComponent({
 	async setup() {
 		//☰☰☰☰☰☰☰☰☰☰
 		const periods = ref<PeriodType[]>([ 'Today', 'This Week', 'This Month' ])
-		const { currentPeriod, allPosts } = await useUtilsStore()
+		const { currentPeriod, allPosts } = await useTimelineHook()
 		
 		/** computed is recalculating all of the ref values */
 		const posts = computed<PostType[]>(() => {
