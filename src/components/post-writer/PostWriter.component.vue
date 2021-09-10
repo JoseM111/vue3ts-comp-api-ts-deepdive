@@ -28,7 +28,7 @@ const { content, html, contentEditable } = usePostWriterHook()
 
 // Will be undefined on the first render because setup
 // will be called first before the component has been mounted
-console.log('[ contentEditable\'s value ]:', contentEditable.value)
+// console.log('[ contentEditable\'s value ]:', contentEditable.value)
 // 🌀🌀💻 ☰☰☰☰☰☰☰☰☰☰☰ component-functions ☰☰☰☰☰☰☰☰☰☰☰ 💻🌀🌀
 
 /**☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰☰
@@ -97,7 +97,7 @@ const handleInput = () => {
 onMounted(() => {
 	//..........
 	contentEditable.value!!.textContent = content.value
-	console.log('[ contentEditable\'s value ]:', contentEditable.value)
+	// console.log('[ contentEditable\'s value ]:', contentEditable.value)
 })
 
 const savePost = (): void => {
@@ -137,6 +137,7 @@ const savePost = (): void => {
 				<input v-model="title"
 				       type="text"
 				       class="input"
+				       data-test="title"
 				>
 			</div>
 		</div>
@@ -153,9 +154,12 @@ const savePost = (): void => {
 				        element is editable.
 				      • false, which indicates that the element is not editable.
 				 -->
-			<div contenteditable ref="contentEditable"
+			<div contenteditable
+			     ref="contentEditable"
 			     @input="handleInput"
-			     style="border-radius: 8px;" />
+			     style="border-radius: 8px;"
+			     data-test="content"
+			/>
 			<!-- @ref: is a template ref, to get ⬆️ a reference from a dom element -->
 		</div>
 		
@@ -165,10 +169,11 @@ const savePost = (): void => {
 		
 		<div class="columns">
 			<div class="column">
-				<button class="button is-primary is-pulled-right"
-				@click="savePost"
-				>
-					Submit
+				<button
+					class="button is-primary is-pulled-right"
+					@click="savePost"
+					data-test="submit"
+				>Submit
 				</button>
 			</div>
 		</div>
